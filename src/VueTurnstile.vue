@@ -139,11 +139,6 @@
 
     try {
       widgetId.value = turnstile.render(turnstileRef.value, options)
-      console.log('[VueTurnstile] Widget rendered with ID:', widgetId.value)
-      console.log('[VueTurnstile] Widget options:', {
-        theme: props.theme,
-        size: props.size
-      })
     } catch (error) {
       console.error('[VueTurnstile] Failed to render widget:', error)
     }
