@@ -1,0 +1,71 @@
+{
+  "name": "vue-cloudflare-turnstile",
+  "version": "1.0.0",
+  "description": "A Vue 3 component wrapper for Cloudflare Turnstile - a user-friendly CAPTCHA alternative",
+  "type": "module",
+  "main": "./dist/vue-cloudflare-turnstile.umd.js",
+  "module": "./dist/vue-cloudflare-turnstile.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/vue-cloudflare-turnstile.es.js",
+      "require": "./dist/vue-cloudflare-turnstile.umd.js"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "type-check": "vue-tsc --build",
+    "lint": "eslint . --fix --cache",
+    "format": "prettier --write src/",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "cloudflare",
+    "turnstile",
+    "captcha",
+    "recaptcha",
+    "component",
+    "typescript",
+    "security",
+    "bot-protection"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/vue-cloudflare-turnstile.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/vue-cloudflare-turnstile/issues"
+  },
+  "homepage": "https://github.com/yourusername/vue-cloudflare-turnstile#readme",
+  "peerDependencies": {
+    "vue": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vue/tsconfig": "^0.8.1",
+    "eslint": "^9.0.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.7",
+    "vite-plugin-dts": "^4.5.4",
+    "vue": "^3.5.22",
+    "vue-tsc": "^3.1.0"
+  }
+}
