@@ -1,6 +1,6 @@
 {
   "name": "vue-cloudflare-turnstile",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Vue 3 component wrapper for Cloudflare Turnstile - a user-friendly CAPTCHA alternative",
   "type": "module",
   "main": "./dist/vue-cloudflare-turnstile.umd.js",
