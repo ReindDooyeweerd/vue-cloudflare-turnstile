@@ -7,5 +7,5 @@
     "composite": false
   },
   "include": ["src/index.ts", "src/types.ts", "src/VueTurnstile.vue"],
-  "exclude": ["src/main.ts", "src/App.vue", "src/style.css", "src/components", "src/assets"]
+  "exclude": ["src/main.ts", "src/App.vue", "src/App.scss"]
 }
