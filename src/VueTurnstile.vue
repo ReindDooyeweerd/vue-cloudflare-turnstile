@@ -261,5 +261,5 @@
   <div
     ref="turnstileRef"
     class="vue-turnstile"
-  />
+  ></div>
 </template>

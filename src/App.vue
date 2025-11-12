@@ -1,46 +1,72 @@
 <script setup lang="ts">
+  // Import components
   import { ref } from 'vue'
   import VueTurnstile from './VueTurnstile.vue'
+
+  // Import types
   import type { TurnstileTheme, TurnstileSize } from './types'
 
-  // IMPORTANT: Replace with your actual Cloudflare Turnstile site key
-  // For testing, you can use Cloudflare's test keys:
-  // - Visible (always passes): 1x00000000000000000000AA
-  // - Invisible (always passes): 2x00000000000000000000AB
-  // - Force challenge: 3x00000000000000000000FF
-  const SITE_KEY = '1x00000000000000000000AA'
+  /**
+   * Cloudflare Turnstile site key
+   *
+   * For testing, you can use Cloudflare's test keys:
+   * - Visible (always passes): 1x00000000000000000000AA
+   * - Invisible (always passes): 2x00000000000000000000AB
+   * - Force challenge: 3x00000000000000000000FF
+   */
+  const SITE_KEY = ref<string>('1x00000000000000000000AA')
 
-  const token = ref<string>('')
-  const theme = ref<TurnstileTheme>('auto')
-  const size = ref<TurnstileSize>('normal')
+  /**
+   * Reactive references
+   */
   const resetKey = ref(0)
+  const size = ref<TurnstileSize>('normal')
+  const theme = ref<TurnstileTheme>('auto')
+  const token = ref<string>('')
   const turnstileRef = ref<InstanceType<typeof VueTurnstile> | null>(null)
 
-  const handleSuccess = (responseToken: string) => {
+  /**
+   * handleSuccess
+   * @param responseToken - The token received upon successful completion
+   */
+  function handleSuccess(responseToken: string) {
     console.log('Success! Token:', responseToken)
     token.value = responseToken
   }
 
-  const handleError = (errorCode?: string) => {
+  /**
+   * handleError
+   * @param errorCode - Optional error code if an error occurred
+   */
+  function handleError(errorCode?: string) {
     console.error('Error:', errorCode)
     token.value = ''
   }
 
-  const handleExpired = () => {
+  /**
+   * handleExpired
+   * Called when the token expires
+   */
+  function handleExpired() {
     console.log('Token expired')
     token.value = ''
   }
 
-  const resetWidget = () => {
-    resetKey.value++
-    token.value = ''
+  /**
+   * manualReset
+   * Manually resets the Turnstile widget via ref
+   */
+  function manualReset() {
+    const turnstile = turnstileRef.value
+    if (turnstile) {
+      turnstile.reset()
+    }
   }
 
-  const manualReset = () => {
-    turnstileRef.value?.reset()
-    token.value = ''
-  }
-
+  /**
+   * getResponse
+   * Retrieves the current response token from the Turnstile widget
+   */
   const getResponse = () => {
     const response = turnstileRef.value?.getResponse()
     console.log('Current response:', response)
@@ -49,279 +75,110 @@
 </script>
 
 <template>
-  <div class="app">
-    <main class="main">
-      <section class="demo-section">
-        <h2>Basic Demo</h2>
-        <p class="description">
-          This is a basic implementation of the Cloudflare Turnstile component.
-        </p>
-
-        <div class="turnstile-container">
-          <VueTurnstile
-            ref="turnstileRef"
-            :site-key="SITE_KEY"
-            :theme="theme"
-            :size="size"
-            :reset-key="resetKey"
-            @success="handleSuccess"
-            @error="handleError"
-            @expired="handleExpired"
-          />
-        </div>
-
-        <div
-          v-if="token"
-          class="token-display"
-        >
-          <h3>Token Received:</h3>
-          <code>{{ token.substring(0, 50) }}...</code>
-        </div>
-      </section>
-
-      <section class="controls-section">
-        <h2>Configuration</h2>
-
-        <div class="control-group">
-          <label for="theme">Theme:</label>
+  <div class="demo-container">
+    <div class="demo-intro">
+      <h1>Vue Cloudflare Turnstile</h1>
+      <p>
+        A Vue 3 component wrapper for Cloudflare Turnstile. A user-friendly, privacy-preserving alternative to
+        (re)CAPTCHA.
+      </p>
+      <p>Protect your forms from bots and spam without compromising user experience.</p>
+      <ul>
+        <li>✅ Vue 3 & TypeScript - Built with Vue 3 Composition API and full TypeScript support</li>
+        <li>✅ Fully Typed - Complete TypeScript definitions for all options and callbacks</li>
+        <li>✅ Flexible - Support for all Cloudflare Turnstile options</li>
+        <li>✅ Reactive - Automatic cleanup and lifecycle management</li>
+        <li>✅ SSR Compatible - Safe for server-side rendering</li>
+        <li>✅ Lightweight - Minimal bundle size with no unnecessary dependencies</li>
+      </ul>
+      <p>
+        <strong>
+          Full docs and usage instructions can be found on
+          <a href="https://github.com/reinddooyeweerd/vue-cloudflare-turnstile">GitHub</a>
+          .
+        </strong>
+      </p>
+    </div>
+    <div class="demo-widget">
+      <h2>Example widget</h2>
+      <div class="wrapper">
+        <VueTurnstile
+          ref="turnstileRef"
+          :key="SITE_KEY"
+          :site-key="SITE_KEY"
+          :theme="theme"
+          :size="size"
+          :reset-key="resetKey"
+          @success="handleSuccess"
+          @error="handleError"
+          @expired="handleExpired"
+        />
+      </div>
+    </div>
+    <div class="demo-result">
+      <pre>{{ token }}</pre>
+    </div>
+    <div class="demo-controls">
+      <div class="demo-control">
+        <label for="sitekey-input">Site Key:</label>
+        <div class="input">
           <select
-            id="theme"
+            id="sitekey-input"
+            v-model="SITE_KEY"
+            class="input"
+          >
+            <option value="1x00000000000000000000AA">Always passes (visible)</option>
+            <option value="2x00000000000000000000AB">Always blocks (visible)</option>
+            <option value="1x00000000000000000000BB">Always passes (invisible)</option>
+            <option value="2x00000000000000000000BB">Always blocks (invisible)</option>
+            <option value="3x00000000000000000000FF">Force Challenge (visible)</option>
+          </select>
+        </div>
+      </div>
+      <div class="demo-control">
+        <label for="theme-select">Theme:</label>
+        <div class="input">
+          <select
+            id="theme-select"
             v-model="theme"
           >
-            <option value="auto">
-              Auto
-            </option>
-            <option value="light">
-              Light
-            </option>
-            <option value="dark">
-              Dark
-            </option>
+            <option value="auto">Auto</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
           </select>
         </div>
-
-        <div class="control-group">
-          <label for="size">Size:</label>
+      </div>
+      <div class="demo-control">
+        <label for="size-select">Size:</label>
+        <div class="input">
           <select
-            id="size"
+            id="size-select"
             v-model="size"
           >
-            <option value="normal">
-              Normal
-            </option>
-            <option value="compact">
-              Compact
-            </option>
-            <option value="flexible">
-              Flexible
-            </option>
-            <option value="invisible">
-              Invisible
-            </option>
+            <option value="normal">Normal</option>
+            <option value="compact">Compact</option>
+            <option value="flexible">Flexible</option>
+            <option value="invisible">Invisible</option>
           </select>
         </div>
-
-        <div class="control-group">
-          <button
-            class="btn"
-            @click="resetWidget"
-          >
-            Reset (via resetKey)
-          </button>
-          <button
-            class="btn"
-            @click="manualReset"
-          >
-            Reset (via ref)
-          </button>
-          <button
-            class="btn btn-secondary"
-            @click="getResponse"
-          >
-            Get Response
-          </button>
+      </div>
+      <div class="demo-control">
+        <div class="label">Reset:</div>
+        <div class="input btn-group">
+          <button @click="resetKey++">Reset (via resetKey)</button>
+          <button @click="manualReset">Reset (via ref)</button>
         </div>
-      </section>
-    </main>
+      </div>
+      <div class="demo-control">
+        <div class="label">Get Response:</div>
+        <div class="input">
+          <button @click="getResponse">Get Current Token</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
-<style scoped>
-  .app {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  }
-
-  .header {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-
-  .header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    color: #2c3e50;
-  }
-
-  .subtitle {
-    font-size: 1.2rem;
-    color: #7f8c8d;
-  }
-
-  .main {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .demo-section,
-  .controls-section,
-  .info-section {
-    background: #f8f9fa;
-    padding: 2rem;
-    border-radius: 8px;
-    border: 1px solid #e9ecef;
-  }
-
-  h2 {
-    margin-top: 0;
-    color: #2c3e50;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .description {
-    color: #7f8c8d;
-    margin-bottom: 1.5rem;
-  }
-
-  .turnstile-container {
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
-    background: white;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-  }
-
-  .token-display {
-    background: #e8f5e9;
-    padding: 1rem;
-    border-radius: 4px;
-    border: 1px solid #4caf50;
-  }
-
-  .token-display h3 {
-    margin-top: 0;
-    font-size: 1rem;
-    color: #2e7d32;
-  }
-
-  .token-display code {
-    display: block;
-    padding: 0.5rem;
-    background: white;
-    border-radius: 4px;
-    overflow-x: auto;
-    font-size: 0.875rem;
-    color: #000;
-  }
-
-  .control-group {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .control-group label {
-    font-weight: 600;
-    min-width: 80px;
-    color: #2c3e50;
-  }
-
-  .btn {
-    padding: 0.5rem 1rem;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background 0.2s;
-  }
-
-  .btn:hover {
-    background: #0056b3;
-  }
-
-  .btn-secondary {
-    background: #6c757d;
-  }
-
-  .btn-secondary:hover {
-    background: #545b62;
-  }
-
-  .info-content h3 {
-    margin-top: 1.5rem;
-    font-size: 1.2rem;
-    color: #2c3e50;
-  }
-
-  .info-content h3:first-child {
-    margin-top: 0;
-  }
-
-  .info-content pre {
-    background: #2c3e50;
-    color: #ecf0f1;
-    padding: 1rem;
-    border-radius: 4px;
-    overflow-x: auto;
-    font-size: 0.875rem;
-  }
-
-  .info-content ul {
-    margin: 0.5rem 0;
-    padding-left: 1.5rem;
-  }
-
-  .info-content li {
-    margin: 0.5rem 0;
-    color: #555;
-  }
-
-  .footer {
-    text-align: center;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid #e9ecef;
-  }
-
-  .footer a {
-    color: #007bff;
-    text-decoration: none;
-  }
-
-  .footer a:hover {
-    text-decoration: underline;
-  }
-
-  @media (max-width: 640px) {
-    .app {
-      padding: 1rem;
-    }
-
-    .header h1 {
-      font-size: 2rem;
-    }
-
-    .control-group {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
+<style lang="scss">
+  @import 'App.scss';
 </style>

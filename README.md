@@ -32,12 +32,12 @@ pnpm add vue-cloudflare-turnstile
 
 ```vue
 <script setup lang="ts">
-import { VueTurnstile } from 'vue-cloudflare-turnstile';
+  import { VueTurnstile } from 'vue-cloudflare-turnstile'
 
-const handleSuccess = (token: string) => {
-  console.log('Turnstile token:', token);
-  // Send token to your server for verification
-};
+  const handleSuccess = (token: string) => {
+    console.log('Turnstile token:', token)
+    // Send token to your server for verification
+  }
 </script>
 
 <template>
@@ -51,85 +51,88 @@ const handleSuccess = (token: string) => {
 ### Global Registration
 
 ```ts
-import { createApp } from 'vue';
-import { VueTurnstilePlugin } from 'vue-cloudflare-turnstile';
-import App from './App.vue';
+import { createApp } from 'vue'
+import { VueTurnstilePlugin } from 'vue-cloudflare-turnstile'
+import App from './App.vue'
 
-const app = createApp(App);
+const app = createApp(App)
 
 // Register globally with default name 'VueTurnstile'
-app.use(VueTurnstilePlugin);
+app.use(VueTurnstilePlugin)
 
 // Or with a custom name
-app.use(VueTurnstilePlugin, { componentName: 'Turnstile' });
+app.use(VueTurnstilePlugin, { componentName: 'Turnstile' })
 
-app.mount('#app');
+app.mount('#app')
 ```
 
 ## API Reference
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `siteKey` | `string` | **required** | Your Cloudflare Turnstile site key |
-| `theme` | `'light' \| 'dark' \| 'auto'` | `'auto'` | Widget theme |
-| `size` | `'normal' \| 'compact' \| 'flexible' \| 'invisible'` | `'normal'` | Widget size (invisible runs challenge in background with no visible widget) |
-| `tabindex` | `number` | `0` | Tab index for accessibility |
-| `execution` | `'render' \| 'execute'` | `'render'` | When to execute the challenge |
-| `language` | `string` | `'auto'` | Language code (e.g., 'en', 'es') |
-| `responseField` | `boolean` | `true` | Add response field to forms |
-| `responseFieldName` | `string` | `undefined` | Custom response field name |
-| `retry` | `'auto' \| 'never'` | `'auto'` | Automatic retry on failure |
-| `retryInterval` | `number` | `8000` | Retry interval in milliseconds |
-| `refreshExpired` | `'auto' \| 'manual' \| 'never'` | `'auto'` | Auto-refresh expired tokens |
-| `appearance` | `'always' \| 'execute' \| 'interaction-only'` | `'always'` | When to show the widget |
-| `cData` | `string` | `undefined` | Custom data to pass |
-| `resetKey` | `string \| number` | `undefined` | Change to trigger reset |
+| Prop                | Type                                                 | Default      | Description                                                                 |
+| ------------------- | ---------------------------------------------------- | ------------ | --------------------------------------------------------------------------- |
+| `siteKey`           | `string`                                             | **required** | Your Cloudflare Turnstile site key                                          |
+| `theme`             | `'light' \| 'dark' \| 'auto'`                        | `'auto'`     | Widget theme                                                                |
+| `size`              | `'normal' \| 'compact' \| 'flexible' \| 'invisible'` | `'normal'`   | Widget size (invisible runs challenge in background with no visible widget) |
+| `tabindex`          | `number`                                             | `0`          | Tab index for accessibility                                                 |
+| `execution`         | `'render' \| 'execute'`                              | `'render'`   | When to execute the challenge                                               |
+| `language`          | `string`                                             | `'auto'`     | Language code (e.g., 'en', 'es')                                            |
+| `responseField`     | `boolean`                                            | `true`       | Add response field to forms                                                 |
+| `responseFieldName` | `string`                                             | `undefined`  | Custom response field name                                                  |
+| `retry`             | `'auto' \| 'never'`                                  | `'auto'`     | Automatic retry on failure                                                  |
+| `retryInterval`     | `number`                                             | `8000`       | Retry interval in milliseconds                                              |
+| `refreshExpired`    | `'auto' \| 'manual' \| 'never'`                      | `'auto'`     | Auto-refresh expired tokens                                                 |
+| `appearance`        | `'always' \| 'execute' \| 'interaction-only'`        | `'always'`   | When to show the widget                                                     |
+| `cData`             | `string`                                             | `undefined`  | Custom data to pass                                                         |
+| `resetKey`          | `string \| number`                                   | `undefined`  | Change to trigger reset                                                     |
 
 ### Events
 
-| Event | Payload | Description |
-|-------|---------|-------------|
-| `@success` | `token: string` | Emitted when challenge is completed successfully |
-| `@error` | `errorCode?: string` | Emitted when there is an error |
-| `@expired` | - | Emitted when the token expires |
-| `@beforeInteractive` | - | Emitted before the challenge is interactive |
-| `@afterInteractive` | - | Emitted when the challenge becomes interactive |
-| `@unsupported` | - | Emitted when the browser is unsupported |
-| `@timeout` | - | Emitted when the challenge times out |
+| Event                | Payload              | Description                                      |
+| -------------------- | -------------------- | ------------------------------------------------ |
+| `@success`           | `token: string`      | Emitted when challenge is completed successfully |
+| `@error`             | `errorCode?: string` | Emitted when there is an error                   |
+| `@expired`           | -                    | Emitted when the token expires                   |
+| `@beforeInteractive` | -                    | Emitted before the challenge is interactive      |
+| `@afterInteractive`  | -                    | Emitted when the challenge becomes interactive   |
+| `@unsupported`       | -                    | Emitted when the browser is unsupported          |
+| `@timeout`           | -                    | Emitted when the challenge times out             |
 
 ### Methods (via Template Ref)
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue';
-import { VueTurnstile } from 'vue-cloudflare-turnstile';
+  import { ref } from 'vue'
+  import { VueTurnstile } from 'vue-cloudflare-turnstile'
 
-const turnstileRef = ref<InstanceType<typeof VueTurnstile> | null>(null);
+  const turnstileRef = ref<InstanceType<typeof VueTurnstile> | null>(null)
 
-const reset = () => {
-  turnstileRef.value?.reset();
-};
+  const reset = () => {
+    turnstileRef.value?.reset()
+  }
 
-const getToken = () => {
-  const token = turnstileRef.value?.getResponse();
-  console.log('Current token:', token);
-};
+  const getToken = () => {
+    const token = turnstileRef.value?.getResponse()
+    console.log('Current token:', token)
+  }
 </script>
 
 <template>
-  <VueTurnstile ref="turnstileRef" site-key="YOUR_SITE_KEY" />
+  <VueTurnstile
+    ref="turnstileRef"
+    site-key="YOUR_SITE_KEY"
+  />
 </template>
 ```
 
-| Method | Returns | Description |
-|--------|---------|-------------|
-| `reset()` | `void` | Reset the widget |
-| `remove()` | `void` | Remove the widget from DOM |
-| `getResponse()` | `string \| undefined` | Get the current response token |
-| `isExpired()` | `boolean` | Check if token has expired |
-| `execute()` | `Promise<string \| undefined>` | Execute the widget (for execution mode 'execute') |
+| Method          | Returns                        | Description                                       |
+| --------------- | ------------------------------ | ------------------------------------------------- |
+| `reset()`       | `void`                         | Reset the widget                                  |
+| `remove()`      | `void`                         | Remove the widget from DOM                        |
+| `getResponse()` | `string \| undefined`          | Get the current response token                    |
+| `isExpired()`   | `boolean`                      | Check if token has expired                        |
+| `execute()`     | `Promise<string \| undefined>` | Execute the widget (for execution mode 'execute') |
 
 ## Usage Examples
 
@@ -137,150 +140,67 @@ const getToken = () => {
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue';
-import { VueTurnstile } from 'vue-cloudflare-turnstile';
+  import { ref } from 'vue'
+  import { VueTurnstile } from 'vue-cloudflare-turnstile'
 
-const email = ref('');
-const turnstileToken = ref('');
-const isSubmitting = ref(false);
+  const email = ref('')
+  const turnstileToken = ref('')
+  const isSubmitting = ref(false)
 
-const handleTurnstileSuccess = (token: string) => {
-  turnstileToken.value = token;
-};
-
-const submitForm = async () => {
-  if (!turnstileToken.value) {
-    alert('Please complete the Turnstile challenge');
-    return;
+  const handleTurnstileSuccess = (token: string) => {
+    turnstileToken.value = token
   }
 
-  isSubmitting.value = true;
-
-  try {
-    const response = await fetch('/api/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: email.value,
-        turnstileToken: turnstileToken.value,
-      }),
-    });
-
-    if (response.ok) {
-      alert('Form submitted successfully!');
+  const submitForm = async () => {
+    if (!turnstileToken.value) {
+      alert('Please complete the Turnstile challenge')
+      return
     }
-  } catch (error) {
-    console.error('Submission error:', error);
-  } finally {
-    isSubmitting.value = false;
+
+    isSubmitting.value = true
+
+    try {
+      const response = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.value,
+          turnstileToken: turnstileToken.value
+        })
+      })
+
+      if (response.ok) {
+        alert('Form submitted successfully!')
+      }
+    } catch (error) {
+      console.error('Submission error:', error)
+    } finally {
+      isSubmitting.value = false
+    }
   }
-};
 </script>
 
 <template>
   <form @submit.prevent="submitForm">
-    <input v-model="email" type="email" placeholder="Email" required />
+    <input
+      v-model="email"
+      type="email"
+      placeholder="Email"
+      required
+    />
 
     <VueTurnstile
       site-key="YOUR_SITE_KEY"
       @success="handleTurnstileSuccess"
     />
 
-    <button type="submit" :disabled="!turnstileToken || isSubmitting">
+    <button
+      type="submit"
+      :disabled="!turnstileToken || isSubmitting"
+    >
       Submit
     </button>
   </form>
-</template>
-```
-
-### Dark Mode
-
-```vue
-<script setup lang="ts">
-import { ref } from 'vue';
-import { VueTurnstile } from 'vue-cloudflare-turnstile';
-
-const isDark = ref(false);
-</script>
-
-<template>
-  <div>
-    <button @click="isDark = !isDark">Toggle Theme</button>
-
-    <VueTurnstile
-      site-key="YOUR_SITE_KEY"
-      :theme="isDark ? 'dark' : 'light'"
-    />
-  </div>
-</template>
-```
-
-### Reset Widget
-
-```vue
-<script setup lang="ts">
-import { ref } from 'vue';
-import { VueTurnstile } from 'vue-cloudflare-turnstile';
-
-// Method 1: Using resetKey prop (reactive)
-const resetKey = ref(0);
-
-const resetViaKey = () => {
-  resetKey.value++; // This will trigger a reset
-};
-
-// Method 2: Using template ref (imperative)
-const turnstileRef = ref<InstanceType<typeof VueTurnstile> | null>(null);
-
-const resetViaRef = () => {
-  turnstileRef.value?.reset();
-};
-</script>
-
-<template>
-  <div>
-    <VueTurnstile
-      ref="turnstileRef"
-      site-key="YOUR_SITE_KEY"
-      :reset-key="resetKey"
-    />
-
-    <button @click="resetViaKey">Reset (via key)</button>
-    <button @click="resetViaRef">Reset (via ref)</button>
-  </div>
-</template>
-```
-
-### Execute Mode
-
-```vue
-<script setup lang="ts">
-import { ref } from 'vue';
-import { VueTurnstile } from 'vue-cloudflare-turnstile';
-
-const turnstileRef = ref<InstanceType<typeof VueTurnstile> | null>(null);
-
-const handleSubmit = async () => {
-  try {
-    const token = await turnstileRef.value?.execute();
-    console.log('Token:', token);
-    // Send to server
-  } catch (error) {
-    console.error('Turnstile execution failed:', error);
-  }
-};
-</script>
-
-<template>
-  <div>
-    <VueTurnstile
-      ref="turnstileRef"
-      site-key="YOUR_SITE_KEY"
-      execution="execute"
-    />
-
-    <button @click="handleSubmit">Submit</button>
-  </div>
 </template>
 ```
 
@@ -305,40 +225,6 @@ Cloudflare provides test keys for development:
 
 **IMPORTANT**: Always verify the Turnstile token on your server. Never trust client-side validation alone.
 
-### Example: Node.js/Express
-
-```javascript
-const express = require('express');
-const app = express();
-
-app.post('/api/verify-turnstile', async (req, res) => {
-  const { token } = req.body;
-  const SECRET_KEY = process.env.TURNSTILE_SECRET_KEY;
-
-  const response = await fetch(
-    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        secret: SECRET_KEY,
-        response: token,
-      }),
-    }
-  );
-
-  const data = await response.json();
-
-  if (data.success) {
-    // Token is valid
-    res.json({ success: true });
-  } else {
-    // Token is invalid
-    res.status(400).json({ success: false, errors: data['error-codes'] });
-  }
-});
-```
-
 ## TypeScript Support
 
 This package includes full TypeScript definitions. Import types as needed:
@@ -349,8 +235,8 @@ import type {
   TurnstileSize,
   TurnstileErrorCode,
   TurnstileProps,
-  TurnstileEmits,
-} from 'vue-cloudflare-turnstile';
+  TurnstileEmits
+} from 'vue-cloudflare-turnstile'
 ```
 
 ## Security Best Practices
@@ -365,6 +251,7 @@ import type {
 ## Browser Support
 
 Turnstile works in all modern browsers that support:
+
 - ES6+
 - WebAssembly
 - JavaScript enabled
