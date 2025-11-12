@@ -28,6 +28,6 @@ export default [
     }
   },
   {
-    ignores: ['dist/', 'node_modules/', '*.config.js']
+    ignores: ['dist/', 'dist-demo/', 'node_modules/', '*.config.js']
   }
 ]

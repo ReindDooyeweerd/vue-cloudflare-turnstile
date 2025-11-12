@@ -127,11 +127,21 @@
             v-model="SITE_KEY"
             class="input"
           >
-            <option value="1x00000000000000000000AA">Always passes (visible)</option>
-            <option value="2x00000000000000000000AB">Always blocks (visible)</option>
-            <option value="1x00000000000000000000BB">Always passes (invisible)</option>
-            <option value="2x00000000000000000000BB">Always blocks (invisible)</option>
-            <option value="3x00000000000000000000FF">Force Challenge (visible)</option>
+            <option value="1x00000000000000000000AA">
+              Always passes (visible)
+            </option>
+            <option value="2x00000000000000000000AB">
+              Always blocks (visible)
+            </option>
+            <option value="1x00000000000000000000BB">
+              Always passes (invisible)
+            </option>
+            <option value="2x00000000000000000000BB">
+              Always blocks (invisible)
+            </option>
+            <option value="3x00000000000000000000FF">
+              Force Challenge (visible)
+            </option>
           </select>
         </div>
       </div>
@@ -142,9 +152,15 @@
             id="theme-select"
             v-model="theme"
           >
-            <option value="auto">Auto</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
+            <option value="auto">
+              Auto
+            </option>
+            <option value="light">
+              Light
+            </option>
+            <option value="dark">
+              Dark
+            </option>
           </select>
         </div>
       </div>
@@ -155,24 +171,42 @@
             id="size-select"
             v-model="size"
           >
-            <option value="normal">Normal</option>
-            <option value="compact">Compact</option>
-            <option value="flexible">Flexible</option>
-            <option value="invisible">Invisible</option>
+            <option value="normal">
+              Normal
+            </option>
+            <option value="compact">
+              Compact
+            </option>
+            <option value="flexible">
+              Flexible
+            </option>
+            <option value="invisible">
+              Invisible
+            </option>
           </select>
         </div>
       </div>
       <div class="demo-control">
-        <div class="label">Reset:</div>
+        <div class="label">
+          Reset:
+        </div>
         <div class="input btn-group">
-          <button @click="resetKey++">Reset (via resetKey)</button>
-          <button @click="manualReset">Reset (via ref)</button>
+          <button @click="resetKey++">
+            Reset (via resetKey)
+          </button>
+          <button @click="manualReset">
+            Reset (via ref)
+          </button>
         </div>
       </div>
       <div class="demo-control">
-        <div class="label">Get Response:</div>
+        <div class="label">
+          Get Response:
+        </div>
         <div class="input">
-          <button @click="getResponse">Get Current Token</button>
+          <button @click="getResponse">
+            Get Current Token
+          </button>
         </div>
       </div>
     </div>
