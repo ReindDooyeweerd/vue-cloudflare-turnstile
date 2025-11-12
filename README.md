@@ -284,8 +284,4 @@ MIT License - see [LICENSE](LICENSE) file for details
 
 - [Cloudflare Turnstile Documentation](https://developers.cloudflare.com/turnstile/)
 - [Cloudflare Dashboard](https://dash.cloudflare.com/)
-- [Report Issues](https://github.com/yourusername/vue-cloudflare-turnstile/issues)
-
-## Credits
-
-Built with Vue 3, TypeScript, and Vite. Powered by Cloudflare Turnstile.
+- [Report Issues](https://github.com/ReindDooyeweerd/vue-cloudflare-turnstile/issues)
