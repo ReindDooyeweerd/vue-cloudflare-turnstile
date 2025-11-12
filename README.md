@@ -1,6 +1,8 @@
 # Vue Cloudflare Turnstile
 
-A Vue 3 component wrapper for [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) - a user-friendly, privacy-preserving alternative to CAPTCHA.
+A Vue 3 component wrapper for [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/). A user-friendly, privacy-preserving alternative to (re)CAPTCHA.
+
+A working demo version of the widget can be found [HERE](https://vue-cloudflare-turnstile.pages.dev/)
 
 ## Features
 
